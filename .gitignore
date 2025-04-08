@@ -1,0 +1,6 @@
+compile_commands.json
+so_long
+*.o
+.vscode/
+.cache/
+obj/
