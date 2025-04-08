@@ -31,6 +31,10 @@ OBJ_DIR		=	./obj/
 OBJ_FILE	=	$(patsubst %.c, %.o, $(SRC_FILE))
 OBJECTS		=	$(addprefix $(OBJ_DIR), $(OBJ_FILE))
 
+GREEN		=	\033[0;92m
+RESET		=	\033[0m
+RED 		=	\033[31m
+
 all			:	libmlx $(NAME)
 
 run			:	all
@@ -41,19 +45,24 @@ libmlx		:
 
 $(NAME)		:	$(OBJ_DIR) $(OBJECTS)
 		$(CC) $(CCFLAG) $(OBJECTS) $(LIBS) -I$(HDR_DIR) -I$(LIB_MLX_HDR) -o $(NAME)
-		@echo "\033[0;92m* $(NAME) program file was created\033[0m *"
+		@echo "$(GREEN)* $(NAME) program file was created *$(RESET)"
 
 $(OBJ_DIR)%.o : $(SRC_DIR)%.c
 		@$(CC) $(CCFLAG) -I$(HDR_DIR) -I$(LIB_MLX_HDR) -c $< -o $@
 
 clean		:
-		rm -rf $(OBJECTS)
-		@echo "\033[0;91m* $(NAME) object files was deleted *\033[0m"
+		@rm -rf $(OBJECTS)
+		@echo "$(RED)* $(NAME) object files have been deleted *$(RESET)"
 
 fclean		:	clean
-		rm -rf $(NAME)
-		@echo "\033[0;91m* $(NAME) was deleted *\033[0m"
+		@rm -rf $(NAME)
+		@echo "$(RED)* $(NAME) was deleted *$(RESET)"
 
 re			:	fclean $(NAME)
 
-.PHONY		:	all clean fclean re
+deps		:	fclean
+	@printf "$(GREEN)* composing compile_commands.json *$(RESET)\n"
+	@intercept-build-14 make
+	@printf "$(GREEN)* compile_commands.json was created *$(RESET)\n"
+
+.PHONY		:	all clean fclean re deps
