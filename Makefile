@@ -6,7 +6,7 @@
 #    By: qmennen <qmennen@student.codam.nl>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/27 17:50:35 by qmennen           #+#    #+#              #
-#    Updated: 2025/04/10 14:56:59 by qmennen          ###   ########.fr        #
+#    Updated: 2025/04/10 15:18:10 by qmennen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ LIB_LIBFT_HDR	=	$(LIB_LIBFT)/include
 LIBS		= $(LIB_LIBFT)/libft.a $(LIB_MLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
 
 SRC_DIR		=	./src/
-SRC_FILE	=	main.c window.c log.c game.c hooks.c level.c resources.c
+SRC_FILE	=	main.c window.c log.c game.c hooks.c level.c resources.c tile.c draw_level.c
 
 SOURCES		=	$(addprefix $(SRC_DIR), $(SRC_FILE))
 

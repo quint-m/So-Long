@@ -1,34 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   resources.c                                        :+:      :+:    :+:   */
+/*   draw_level.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qmennen <qmennen@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/10 14:55:49 by qmennen           #+#    #+#             */
-/*   Updated: 2025/04/10 15:36:19 by qmennen          ###   ########.fr       */
+/*   Created: 2025/04/10 15:15:01 by qmennen           #+#    #+#             */
+/*   Updated: 2025/04/10 15:42:21 by qmennen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	resource_free_level(t_level *level)
+void	draw_level(t_game *game)
 {
-	if (level->map)
-		free(level->map);
-	free(level);
-}
+	int	x;
+	int	y;
 
-void	resource_free_tiles(t_game *game)
-{
-	int	i;
-
-	i = 0;
-	while (i < TILE_COUNT)
+	x = 0;
+	y = 0;
+	while (y < game->level->height)
 	{
-		if (game->tiles[i].image)
-			mlx_delete_image(game->window->mlx, game->tiles[i].image);
-		i++;
+		x = 0;
+		while (x < game->level->width)
+		{
+			draw_tile(game, x, y);
+			x++;
+		}
+		y++;
 	}
-	free(game->tiles);
 }

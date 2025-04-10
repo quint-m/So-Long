@@ -6,7 +6,7 @@
 /*   By: qmennen <qmennen@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 19:00:14 by qmennen           #+#    #+#             */
-/*   Updated: 2025/04/10 14:57:22 by qmennen          ###   ########.fr       */
+/*   Updated: 2025/04/10 15:44:32 by qmennen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	game_loop(void	*param)
 
 	game = (t_game *)param;
 	window_clear_screen(game);
+	draw_level(game);
 }
 
 void	game_terminate(t_game *game)
@@ -40,6 +41,8 @@ void	game_terminate(t_game *game)
 	mlx_delete_image(game->window->mlx, game->window->screen);
 	if (game->level)
 		resource_free_level(game->level);
+	if (game->tiles)
+		resource_free_tiles(game);
 	if (game->window)
 		free(game->window);
 	free(game);

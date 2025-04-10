@@ -6,7 +6,7 @@
 /*   By: qmennen <qmennen@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 16:27:47 by qmennen           #+#    #+#             */
-/*   Updated: 2025/04/08 16:30:24 by qmennen          ###   ########.fr       */
+/*   Updated: 2025/04/10 15:51:29 by qmennen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static int	level_get_width(char *path)
 	return (width);
 }
 
-static void	map_read(char *path, char *map)
+static void	map_read(char *path, t_level *level)
 {
 	int		fd;
 	int		y;
@@ -97,7 +97,7 @@ static void	map_read(char *path, char *map)
 		split = ft_split(line, ' ');
 		while (split[x])
 		{
-			map[x + y * 4] = *split[x];
+			level->map[x + y * level->width] = *split[x];
 			x++;
 			free(split[x - 1]);
 		}
@@ -120,9 +120,10 @@ t_level	*level_load(char *path)
 	printf("level height %i\n", level->height);
 	level->width = level_get_width(path);
 	printf("level width %i\n", level->width);
-	level->map = malloc(level->width * level->height);
+	level->map = malloc((level->width * level->height) + 1);
 	if (! level->map)
 		ft_error("malloc: level map failed");
-	map_read(path, level->map);
+	map_read(path, level);
+	level->map[level->width * level->height] = 0;
 	return (level);
 }
