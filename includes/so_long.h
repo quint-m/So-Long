@@ -6,7 +6,7 @@
 /*   By: qmennen <qmennen@student.codam.nl>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:58:21 by qmennen           #+#    #+#             */
-/*   Updated: 2025/04/08 16:28:28 by qmennen          ###   ########.fr       */
+/*   Updated: 2025/04/10 14:57:09 by qmennen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,15 @@
 # include <MLX42/MLX42.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <libft.h>
+# include <unistd.h>
+# include <fcntl.h>
 
 typedef struct s_level
 {
 	int		width;
 	int		height;
-	char	**map;
+	char	*map;
 }	t_level;
 
 typedef struct s_window
@@ -37,6 +40,7 @@ typedef struct s_window
 
 typedef struct s_game
 {
+	t_level		*level;
 	t_window	*window;
 }	t_game;
 
@@ -47,5 +51,8 @@ void		game_loop(void	*param);
 void		game_terminate(t_game *game);
 void		ft_error(char *str);
 void		keyboard_handle(mlx_key_data_t keydata, void *param);
+t_level		*level_load(char *path);
+
+void		resource_free_level(t_level *level);
 
 #endif

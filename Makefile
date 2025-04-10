@@ -6,24 +6,26 @@
 #    By: qmennen <qmennen@student.codam.nl>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/27 17:50:35 by qmennen           #+#    #+#              #
-#    Updated: 2025/03/27 19:03:44 by qmennen          ###   ########.fr        #
+#    Updated: 2025/04/10 14:56:59 by qmennen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	so_long
 CC			=	cc
-CCFLAG		=	-Wall -Wextra -Werror -Wundef -fsanitize=address,undefined
+CCFLAG		=	-Wall -Wextra -Werror -Wundef -g3 -fsanitize=address,undefined
 
 LIB_MLX		=	./lib/MLX42
+LIB_LIBFT	=	./lib/LibFT
 
 HDR_DIR		=	./includes/
 
 LIB_MLX_HDR	=	$(LIB_MLX)/include
+LIB_LIBFT_HDR	=	$(LIB_LIBFT)/include
 
-LIBS	:= $(LIB_MLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
+LIBS		= $(LIB_LIBFT)/libft.a $(LIB_MLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
 
 SRC_DIR		=	./src/
-SRC_FILE	=	main.c window.c log.c game.c hooks.c
+SRC_FILE	=	main.c window.c log.c game.c hooks.c level.c resources.c
 
 SOURCES		=	$(addprefix $(SRC_DIR), $(SRC_FILE))
 
@@ -35,7 +37,7 @@ GREEN		=	\033[0;92m
 RESET		=	\033[0m
 RED 		=	\033[31m
 
-all			:	libmlx $(NAME)
+all			:	libft libmlx $(NAME)
 
 run			:	all
 		./$(NAME)
@@ -43,12 +45,15 @@ run			:	all
 libmlx		:
 		@cmake $(LIB_MLX) -B $(LIB_MLX)/build && make -C $(LIB_MLX)/build -j4
 
+libft		:
+		@make -C $(LIB_LIBFT)
+
 $(NAME)		:	$(OBJ_DIR) $(OBJECTS)
-		$(CC) $(CCFLAG) $(OBJECTS) $(LIBS) -I$(HDR_DIR) -I$(LIB_MLX_HDR) -o $(NAME)
+		$(CC) $(CCFLAG) $(OBJECTS) $(LIBS) -I$(HDR_DIR) -I$(LIB_MLX_HDR) -I$(LIB_LIBFT_HDR) -o $(NAME)
 		@echo "$(GREEN)* $(NAME) program file was created *$(RESET)"
 
 $(OBJ_DIR)%.o : $(SRC_DIR)%.c
-		@$(CC) $(CCFLAG) -I$(HDR_DIR) -I$(LIB_MLX_HDR) -c $< -o $@
+		@$(CC) $(CCFLAG) -I$(HDR_DIR) -I$(LIB_MLX_HDR) -I$(LIB_LIBFT_HDR) -c $< -o $@
 
 clean		:
 		@rm -rf $(OBJECTS)
